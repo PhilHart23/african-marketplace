@@ -1,11 +1,11 @@
 const router = require("express").Router();
 
 const Users = require("./users-model");
-const restricted = require("../auth/middleware/restricted-middleware.js");
+// cons = require("../auth/middleware/restricted-middleware.js");
 const verifyUserId = require("../auth/middleware/verifyUserId-middleware.js");
 
 //get all users
-router.get("/", restricted, (req, res) => {
+router.get("/", (req, res) => {
   Users.find()
     .then(users => {
       res.json(users);
@@ -28,7 +28,7 @@ router.get("/:id", verifyUserId, (req, res) => {
 });
 
 //get a users items
-router.get("/:id/items", restricted, verifyUserId, (req, res) => {
+router.get("/:id/items", verifyUserId, (req, res) => {
   const id = req.params.id;
 
   Users.findById(id)
@@ -48,7 +48,7 @@ router.get("/:id/items", restricted, verifyUserId, (req, res) => {
 });
 
 //delete a user by id
-router.delete("/:id", restricted, (req, res) => {
+router.delete("/:id", (req, res) => {
   const id = req.params.id;
 
   Users.deleteUser(id)

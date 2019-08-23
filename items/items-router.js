@@ -1,12 +1,12 @@
 const router = require("express").Router();
 
 const Items = require("./items-model.js");
-const restricted = require("../auth/middleware/restricted-middleware.js");
+// const restricted = require("../auth/middleware/restricted-middleware.js");
 const validateItemsContent = require("../auth/middleware/validateItemsContent-middleware");
 const verifyItemId = require("../auth/middleware/verifyItemId-middleware.js");
 
 //add Item
-router.post("/additem", restricted, validateItemsContent, (req, res) => {
+router.post("/additem", validateItemsContent, (req, res) => {
   Items.addItem(req.body)
     .then(item => {
       res.status(201).json(item);
@@ -17,7 +17,7 @@ router.post("/additem", restricted, validateItemsContent, (req, res) => {
 });
 
 //Get Items
-router.get("/", restricted, (req, res) => {
+router.get("/", (req, res) => {
   Items.getItems()
     .then(items => {
       res.status(200).json(items);
@@ -41,7 +41,7 @@ router.get("/:id", verifyItemId, (req, res) => {
 });
 
 //update Users Item
-router.put("/:id", restricted, verifyItemId, validateItemsContent, (req, res) => {
+router.put("/:id", verifyItemId, validateItemsContent, (req, res) => {
   const id = req.params.id;
   const changes = req.body;
 
@@ -55,7 +55,7 @@ router.put("/:id", restricted, verifyItemId, validateItemsContent, (req, res) =>
 });
 
 //delete users Item
-router.delete("/:id", restricted, verifyItemId, (req, res) => {
+router.delete("/:id", verifyItemId, (req, res) => {
   const id = req.params.id;
 
   Items.deleteItem(id)

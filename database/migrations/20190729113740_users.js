@@ -18,14 +18,7 @@ exports.up = function(knex) {
       items.text("location");
       items.text("category");
       items.string("URL");
-      items
-        .integer("user_id")
-        .unsigned()
-        .notNullable()
-        .references("id")
-        .inTable("users")
-        .onUpdate("CASCADE")
-        .onDelete("CASCADE");
+      
     });
 };
 
