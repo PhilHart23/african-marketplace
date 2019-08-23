@@ -14,8 +14,15 @@ function getItems() {
   return db("items");
 }
 
+// function addItem(item) {
+//   return db("items").insert(item);
+// }
+
 function addItem(item) {
-  return db("items").insert(item, "id");
+  return db("items")
+  .insert(item)
+  .into("items");
+    
 }
 
 function getItemsByCategory(category) {
@@ -50,4 +57,4 @@ function find(category) {
     query.where({ category });
   }
   return query;
-} 
+}

@@ -1,21 +1,36 @@
-const router = require("express").Router();
+const express = require("express");
+const router = express.Router();
 
 const Items = require("./items-model.js");
 // const restricted = require("../auth/middleware/restricted-middleware.js");
 const validateItemsContent = require("../auth/middleware/validateItemsContent-middleware");
 const verifyItemId = require("../auth/middleware/verifyItemId-middleware.js");
 
-//add Item
-router.post("/additem", validateItemsContent, (req, res) => {
-  Items.addItem(req.body)
-    .then(item => {
-      res.status(201).json(item);
-    })
-    .catch(err => {
-      res.status(500).json(err);
-    });
-});
 
+// router.post("/", (req, res) => {
+//   Items.addItem(req.body)
+//     .then(item => {
+//       res.status(201).json(item);
+//     })
+//     .catch(err => {
+//       res.status(500).json(err);
+//     });
+// });
+
+router.post("/", async (req, res) => {
+  const item = req.body;
+  try {
+    await Items.addItem(item);
+    let updatedArray = await Items.getItems();
+    return res.status(200).json({
+      items: updatedArray,
+      message: "Successfully Posted"
+    });
+  } catch (err) {
+    res.status(500).json(err.message);
+  }
+  });
+  
 //Get Items
 router.get("/", (req, res) => {
   Items.getItems()

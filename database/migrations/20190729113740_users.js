@@ -18,10 +18,16 @@ exports.up = function(knex) {
       items.text("location");
       items.text("category");
       items.string("URL");
-      
-    });
+      items
+        .integer("user_id")
+        .unsigned()
+        .references("id")
+        .inTable("users")
+        .onUpdate("CASCADE")
+        .onDelete("CASCADE");
+     });
 };
 
 exports.down = function(knex, Promise) {
-  return knex.schema.dropTableIfExists("items").dropTableIfExists("users");
+  return knex.schema.dropTableIfExists("users").dropTableIfExists("items");
 };
